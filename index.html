@@ -1,0 +1,165 @@
+<!doctype html>
+<html>
+	<head>
+		<title>2016 in Headlines | Sosolimited</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="Explore every 2016 headline from the New York Times and Wall Street Journal. Search for a topic, compare the coverage, and download the results.">
+
+		<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/4.1.3/papaparse.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.17.1/moment.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+
+		<script src="https://2016headlines.sosolimited.com/data/liwc.js"></script>
+
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.css" type="text/css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" type="text/css">
+		<link rel="stylesheet" href="style.css" type="text/css">
+
+		<link href="https://fonts.googleapis.com/css?family=PT+Serif:400i,700|Source+Sans+Pro|PT+Mono" rel="stylesheet">
+	</head>
+	<body>
+		<div id="mobile-sorry">
+			<h1>Explore 2016 in Headlines</h1>
+			<p>This experience works<br>best on desktop.<br><br></p>
+			<h2><a id="mobile-continue" href="#">Continue...</a></h2>
+		</div>
+		
+		<header>
+			<div id="titleBlock">
+				<div id="title">
+					<h1>Explore 2016 in headlines</h1>
+				</div>
+				<div id="info">
+					<p>
+						Headlines are tiny windows into a big, happening world. As we try to make sense of the past year, it 
+						seems timely to take a critical look at the power and impact of these short phrases.
+					</p>
+					<p>
+						Explore every 2016 headline from the New York Times and Wall Street Journal. Search for a topic or 
+						phrase, compare the coverage, and download the results. Use this tool for research or for fun. Download 
+						the code and make your own visualization.
+					</p>
+					<p>
+						<a href="">More about this project</a>
+					</p>
+					<br/>
+				</div>
+			</div>
+			<div id="interactivePanel">
+				<div id="search-options">
+					<hr/>
+					<h2>Search</h2>
+					<input id="search" type="text" spellcheck="false" />
+					<div id="search-icon" class="ion-ios-search-strong"></div>
+					<p>
+						<br/>Search terms can be singular (<span class="code">brexit</span>), comma-separated to match 
+						either/or (<span class="code">clinton, trump</span>), space-separated to match an 
+						exact phrase (<span class="code">north korea</span>), or end with a * for partial 
+						matching (<span class="code">tech*</span>).
+					</p>
+				</div>
+
+				<div id="filter-options">
+					<hr/>
+					<h2>Filter</h2>
+					<div id="source_select"><p>Select news source(s): </p></div>
+
+					<br />
+					Y axis:<br />
+					<input id="radio-perc-hl" data-key="%" type="radio" name="graph-y" value="% headlines" checked>
+					<label for="radio-perc-hl">% of headlines </label>
+
+					<input id="radio-num-hl" data-key="#" type="radio" name="graph-y" value="# headlines">
+					<label for="radio-num-hl"># of headlines</label>
+
+					<br /><br/>
+					<div id="liwc-ui">
+						Filter further by <a target="_blank" href="https://liwc.wpengine.com/how-it-works/">LIWC category</a>:<br />
+						<select id="liwc_category">
+							<option value="">(none)</option>
+						</select>
+					</div>
+				</div>
+
+				<div id="download-options">
+					<hr/>
+					<h2>Download</h2>
+					<div id="save-csv">
+						Download 2016 search results for “<span id="csv-term"></span>” as CSV:<br /><br />
+						<a class="csvfreq" download="2016_headlines_frequency.csv" href="" target="_blank"># of headlines</a><br />
+						<a class="csvperc" download="2016_headlines_percentages.csv" href="" target="_blank">% of headlines</a><br />
+						<a class="csvterms" download="2016_headlines_interesting_terms.csv" href="" target="_blank">weekly top terms</a><br />
+						<a class="csvtxt" download="2016_headlines_text.csv" href="" target="_blank">all headline text</a>
+					</div>
+				</div>
+
+				<div class="cf"></div>
+			</div>
+		</header>
+
+		<section id="graph">
+			<svg width="1250" height="400"></svg>
+			<div class="axis-label"></div>
+
+			<div class="big-text" id="no-results">
+				No results.
+			</div>
+
+			<div id="results-title">
+				<h3>
+					Week of <span class="results-title-date"></span> <span class="results-title-source"></span>
+				</h3>
+			</div>
+			<div id="words"></div>
+			<div id="interesting-terms"></div>
+
+			<div class="big-text" id="instructions">
+				Hover over the chart <br/>
+				to view headlines and stats.
+			</div>
+
+			<div class="cf"></div>
+		</section>
+
+		<footer>
+			<div id="footer-container">
+				<div id ="soso-credits">
+					<a href="https://www.sosolimited.com"><img alt="Sosolimited logo" src="img/soso-logo.svg" id="soso-logo"></a> 
+
+				</div>
+				<div id ="soso-desc">
+					<p>
+						<a href="https://www.sosolimited.com" class="footer-link">Sosolimited</a> is a design studio that creates 
+						thought-provoking experiences driven by data and technology.
+					</p>
+					<p class="copyright">© Sosolimited 2017.</p>
+				</div>
+
+				<div class ="data-links">
+					<a href="http://developer.nytimes.com/" target="_blank" class="nyt-color">
+						Data provided by the  New York Times
+					</a>
+				</div>
+
+				<div class ="data-links">
+					<a href="http://www.wsj.com/public/page/archive.html" target="_blank" class="wsj-color">
+						Data provided by the  Wall Street Journal
+					</a>
+				</div>
+
+				<div class ="data-links">
+					<a href="https://github.com/sosolimited/2016-Headlines-Explorer" target="_blank" class="footer-link">Download the code <br>on Github</a>
+				</div>
+
+				<div class="cf"></div>
+			</div>
+		</footer>
+
+		<script src="src/csv.js"></script>
+		<script src="src/graph.js"></script>
+		<script src="src/search.js"></script>
+		<script src="src/main.js"></script>
+	</body>
+</html>
