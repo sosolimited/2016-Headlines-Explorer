@@ -1,4 +1,3 @@
-var default_search = 'brexit';
 var use_api = false;
 
 var source_settings = {
@@ -12,9 +11,20 @@ var source_settings = {
 	}
 };
 
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?#&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.hash);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};
+
+var _url_query = getUrlParameter('query');
+var _url_liwc = getUrlParameter('liwc');
+
 // store UI settings
 var selected_sources = Object.keys(source_settings);
-var active_liwc = '';
+var active_liwc = _url_liwc ? _url_liwc : '';
+var default_search = _url_query ? _url_query : 'brexit';
 var y_axis = '%';
 
 //
@@ -61,6 +71,11 @@ if( typeof liwc_categories !== 'undefined' ){
 		}
 		$("#liwc_category").append("<option value='" + k + "'>" + liwc_categories[k].title + '</option>');
 	});
+
+	// select option
+	if( active_liwc != '' ){
+		$("#liwc_category").val(active_liwc);
+	}
 }
 else {
 	$("#liwc-ui").hide();

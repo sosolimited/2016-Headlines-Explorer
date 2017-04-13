@@ -5,6 +5,13 @@ var search = (function(){
 	var headlines_ref = null;
 	var results_ref = null;
 
+	function _setLocationHash(){
+		location.hash = '#query=' + encodeURIComponent($("#search").val());
+		if( active_liwc ){
+			location.hash += '&liwc=' + encodeURIComponent(active_liwc);
+		}
+	}
+
 	// does the sub array 'subarr' occur in 'arr' (with exact ordering)?
 	function _find_sub(subarr, arr, from_index) {
 	  var i = from_index >>> 0,
@@ -348,6 +355,8 @@ var search = (function(){
 			results_ref = getResults(query);
 			_processResults();
 		}
+
+		_setLocationHash();
 	}
 
 	return {
