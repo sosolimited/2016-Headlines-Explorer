@@ -34,7 +34,7 @@ function tokenizeHeadline(text){
     return word == '—' ? ['—'] : word.split(/—/);
   });
 
-  // flatten to one dimentional list
+  // flatten to one dimensional list
   tokens = [].concat.apply([], tokens);
 
   // find and remove various unwanted characters from each fragment
