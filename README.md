@@ -52,6 +52,8 @@ on Jan 1, 2016. The last object holds headlines from the week of Dec 25, 2016, w
 ]
 ```
 
+For details on token list generation, see [tokenization.md](tokenization.md);
+
 ## Sources
 
 [![NYT API](img/poweredby_nytimes_200a.png)](https://developer.nytimes.com)
